@@ -23,9 +23,9 @@ namespace PhoneBook.Controllers.Implementations
             return _departmentService.Get();
         }
 
-        [HttpGet("[action]/{id:guid}")]
-        [Route("[action]/{id:guid}")]
-        public Department Get([FromQuery] Guid id)
+        [HttpGet("[action]/{id:long}")]
+        [Route("[action]/{id:long}")]
+        public Department Get([FromQuery] long id)
         {
             return _departmentService.GetById(id);
         }
@@ -39,7 +39,7 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpPost("[action]}")]
         [Route("[action]")]
-        public Department Post([FromBody] Department model)
+        public long Post([FromBody] Department model)
         {
             return _departmentService.Create(model);
         }
@@ -51,9 +51,9 @@ namespace PhoneBook.Controllers.Implementations
             return _departmentService.Update(model);
         }
 
-        [HttpDelete("[action]/{id:guid}")]
-        [Route("[action]/{id:guid}")]
-        public void Delete([FromQuery] Guid id)
+        [HttpDelete("[action]/{id:long}")]
+        [Route("[action]/{id:long}")]
+        public void Delete([FromQuery] long id)
         {
             _departmentService.Delete(id);
         }

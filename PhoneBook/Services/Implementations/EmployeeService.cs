@@ -13,12 +13,12 @@ namespace PhoneBook.Services.Emplementations
             _employeeRepository = employeeRepository;
         }
 
-        public Employee Create(Employee model)
+        public long Create(Employee model)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Guid id)
+        public void Delete(long id)
         {
             throw new NotImplementedException();
         }
@@ -28,7 +28,7 @@ namespace PhoneBook.Services.Emplementations
             throw new NotImplementedException();
         }
 
-        public Employee GetById(Guid id)
+        public Employee GetById(long id)
         {
             throw new NotImplementedException();
         }
@@ -38,7 +38,7 @@ namespace PhoneBook.Services.Emplementations
             throw new NotImplementedException();
         }
 
-        public List<Employee> GetEmployeesByDepartmentId(Guid departmentId)
+        public List<Employee> GetEmployeesByDepartmentId(long departmentId)
         {
             throw new NotImplementedException();
         }

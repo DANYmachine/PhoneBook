@@ -4,6 +4,6 @@ namespace PhoneBook.Controllers.Interfaces
 {
     public interface IEmployeeController : IBaseController<Employee>
     {
-        public List<Employee> GetDepartmentById(Guid departmentId);
+        public List<Employee> GetDepartmentById(long departmentId);
     }
 }

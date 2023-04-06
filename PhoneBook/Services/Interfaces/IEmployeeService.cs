@@ -4,6 +4,6 @@ namespace PhoneBook.Services.Interfaces
 {
     public interface IEmployeeService : IBaseService<Employee>
     {
-        public List<Employee> GetEmployeesByDepartmentId(Guid departmentId);
+        public List<Employee> GetEmployeesByDepartmentId(long departmentId);
     }
 }

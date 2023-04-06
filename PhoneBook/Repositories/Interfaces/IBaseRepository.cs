@@ -5,10 +5,10 @@ namespace PhoneBook.Repositories.Interfaces
     public interface IBaseRepository<TDbModel>
     {
         public List<TDbModel> Get();
-        public TDbModel GetById(Guid id);
+        public TDbModel GetById(long id);
         public List<TDbModel> GetByQuery(string query);
-        public TDbModel Create(TDbModel model);
+        public long Create(TDbModel model);
         public TDbModel Update(TDbModel model);
-        public void Delete(Guid id);
+        public void Delete(long id);
     }
 }

@@ -5,12 +5,12 @@ namespace PhoneBook.Repositories.Implementations
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        public Employee Create(Employee model)
+        public long Create(Employee model)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Guid id)
+        public void Delete(long id)
         {
             throw new NotImplementedException();
         }
@@ -20,7 +20,7 @@ namespace PhoneBook.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public Employee GetById(Guid id)
+        public Employee GetById(long id)
         {
             throw new NotImplementedException();
         }
@@ -31,6 +31,11 @@ namespace PhoneBook.Repositories.Implementations
         }
 
         public List<Employee> GetEmployeesByDepartmentId(int departmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Employee> GetEmployeesByDepartmentId(long departmentId)
         {
             throw new NotImplementedException();
         }

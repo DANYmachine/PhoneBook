@@ -13,34 +13,34 @@ namespace PhoneBook.Services.Emplementations
             _departmentRepository = departmentRepository;
         }
 
-        public Department Create(Department model)
+        public long Create(Department model)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Create(model);
         }
 
-        public void Delete(Guid id)
+        public void Delete(long id)
         {
-            throw new NotImplementedException();
+            _departmentRepository.Delete(id);
         }
 
         public List<Department> Get()
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Get();
         }
 
-        public Department GetById(Guid id)
+        public Department GetById(long id)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.GetById(id);
         }
 
         public List<Department> GetByQuery(string query)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.GetByQuery(query);
         }
 
         public Department Update(Department model)
         {
-            throw new NotImplementedException();
+            return _departmentRepository.Update(model);
         }
     }
 }
