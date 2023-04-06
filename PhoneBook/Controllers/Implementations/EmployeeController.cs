@@ -8,7 +8,7 @@ namespace PhoneBook.Controllers.Implementations
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeController : IBaseController<Employee>
+    public class EmployeeController : Controller, IBaseController<Employee>
     {
         private readonly IEmployeeRepository _employeeRepository;
 

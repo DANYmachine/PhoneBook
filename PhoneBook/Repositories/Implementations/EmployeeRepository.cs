@@ -3,7 +3,7 @@ using PhoneBook.Repositories.Interfaces;
 
 namespace PhoneBook.Repositories.Implementations
 {
-    public class EmployeeRepository : IBaseRepository<Employee>
+    public class EmployeeRepository : IEmployeeRepository
     {
         public Employee Create(Employee model)
         {
@@ -26,6 +26,11 @@ namespace PhoneBook.Repositories.Implementations
         }
 
         public List<Employee> GetByQuery(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Employee> GetEmployeesByDepartmentId(int departmentId)
         {
             throw new NotImplementedException();
         }
