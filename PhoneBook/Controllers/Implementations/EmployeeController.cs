@@ -23,35 +23,35 @@ namespace PhoneBook.Controllers.Implementations
             return _employeeService.Get();
         }
 
-        [HttpGet("[action]/{id:long}")]
+        [HttpGet]
         [Route("[action]/{id:long}")]
         public Employee Get([FromRoute] long id)
         {
             return _employeeService.GetById(id);
         }
 
-        [HttpGet("[action]/{query}")]
+        [HttpGet]
         [Route("[action]/{query}")]
         public List<Employee> Get([FromRoute] string query)
         {
             return _employeeService.GetByQuery(query);
         }
 
-        [HttpPost("[action]}")]
+        [HttpPost]
         [Route("[action]")]
         public long Post([FromBody] Employee model)
         {
             return _employeeService.Create(model);
         }
 
-        [HttpPut("[action]}")]
+        [HttpPut]
         [Route("[action]")]
         public Employee Put([FromBody] Employee model)
         {
             return _employeeService.Update(model);
         }
 
-        [HttpDelete("[action]/{id:long}")]
+        [HttpDelete]
         [Route("[action]/{id:long}")]
         public void Delete([FromRoute] long id)
         {
@@ -59,7 +59,7 @@ namespace PhoneBook.Controllers.Implementations
         }
 
         //api.com/Employee/Department/1
-        [HttpGet("[action]/Department/{departmentId:long}")]
+        [HttpGet]
         [Route("[action]/Department/{departmentId:long}")]
         public List<Employee> GetDepartmentById([FromRoute] long departmentId)
         {

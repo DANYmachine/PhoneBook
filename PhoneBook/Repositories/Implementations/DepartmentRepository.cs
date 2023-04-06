@@ -21,7 +21,7 @@ namespace PhoneBook.Repositories.Implementations
         {
             try
             {
-                string sqlQuery = "INSERT INTO departments (Id, Name, ParentDepartmentId) " +
+                string sqlQuery = "INSERT INTO departments (Name, ParentDepartmentId) " +
                               "VALUES (@Name, @ParentDepartmentId); SELECT LAST_INSERT_ID();";
 
                 SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
@@ -154,13 +154,42 @@ namespace PhoneBook.Repositories.Implementations
             }
             catch
             {
-                throw new Exception("Error while deleting department!");
+                throw new Exception("Not found by input!");
             }
         }
 
         public Department Update(Department model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string sqlQuery = "UPDATE departments " +
+                                  "SET Name = '@Name', ParentDepartmentId= @ParentDepartmentId" +
+                                  $"WHERE Id = {model.Id};";
+
+                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+                command.Parameters.AddWithValue("@Name", model.Name);
+                command.Parameters.AddWithValue("@ParentDepartmentId", model.ParentDepartmentId);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    throw new NotFoundException("Department to update not found");
+                }
+
+                reader.Read();
+
+                return new Department()
+                {
+                    Id = reader.GetInt64("Id"),
+                    Name = reader.GetString("Name"),
+                    ParentDepartmentId = reader.GetInt64("ParentDepartmentId")
+                };
+            }
+            catch
+            {
+                throw new Exception("Department update failed!");
+            }
         }
     }
 }
