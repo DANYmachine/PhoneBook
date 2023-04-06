@@ -15,35 +15,35 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public Employee Get(Guid id)
+        public Employee Get([FromQuery] Guid id)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("[action]/{query}")]
         [Route("[action]/{query}")]
-        public List<Employee> Get(string query)
+        public List<Employee> Get([FromQuery] string query)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("[action]}")]
         [Route("[action]")]
-        public Employee Post(Employee model)
+        public Employee Post([FromBody] Employee model)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut("[action]}")]
         [Route("[action]")]
-        public Employee Put(Employee model)
+        public Employee Put([FromBody] Employee model)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public void Delete(Guid id)
+        public void Delete([FromQuery] Guid id)
         {
             throw new NotImplementedException();
         }

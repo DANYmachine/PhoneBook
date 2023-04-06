@@ -17,7 +17,7 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public Employee Get(Guid id)
+        public Employee Get([FromQuery] Guid id)
         {
             throw new NotImplementedException();
         }
@@ -45,7 +45,7 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpDelete("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public void Delete(Guid id)
+        public void Delete([FromQuery] Guid id)
         {
             throw new NotImplementedException();
         }
