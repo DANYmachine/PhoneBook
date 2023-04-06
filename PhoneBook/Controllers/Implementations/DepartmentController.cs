@@ -8,7 +8,7 @@ namespace PhoneBook.Controllers.Implementations
 {
     [ApiController]
     [Route("[controller]")]
-    public class DepartmentController : Controller, IBaseController<Department>
+    public class DepartmentController : Controller, IDepartmentController
     {
         private readonly IDepartmentRepository _departmentRepository;
 

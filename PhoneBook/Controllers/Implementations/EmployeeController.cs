@@ -8,7 +8,7 @@ namespace PhoneBook.Controllers.Implementations
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeController : Controller, IBaseController<Employee>
+    public class EmployeeController : Controller, IEmployeeController
     {
         private readonly IEmployeeRepository _employeeRepository;
 
@@ -26,14 +26,14 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public Employee Get([FromQuery] Guid id)
+        public Employee Get([FromRoute] Guid id)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("[action]/{query}")]
         [Route("[action]/{query}")]
-        public List<Employee> Get([FromQuery] string query)
+        public List<Employee> Get([FromRoute] string query)
         {
             throw new NotImplementedException();
         }
@@ -54,7 +54,15 @@ namespace PhoneBook.Controllers.Implementations
 
         [HttpDelete("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public void Delete([FromQuery] Guid id)
+        public void Delete([FromRoute] Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        //api.com/Employee/Department/1
+        [HttpGet("[action]/Department/{departmentId:guid}")]
+        [Route("[action]/Department/{departmentId:guid}")]
+        public List<Employee> GetDepartmentById([FromRoute] Guid departmentId)
         {
             throw new NotImplementedException();
         }
