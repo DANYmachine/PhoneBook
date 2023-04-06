@@ -1,44 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Controllers.Interfaces;
 using PhoneBook.Models;
+using PhoneBook.Repositories.Implementations;
+using PhoneBook.Repositories.Interfaces;
 
 namespace PhoneBook.Controllers.Implementations
 {
     [ApiController]
     [Route("[controller]")]
-    public class DepartmentController : Controller, IBaseController<Employee>
+    public class DepartmentController : Controller, IBaseController<Department>
     {
+        private readonly IDepartmentRepository _departmentRepository;
+
+        public DepartmentController(IDepartmentRepository departmentRepository)
+        {
+            _departmentRepository = departmentRepository;
+        }
+
         [HttpGet]
         [Route("[action]")]
-        public List<Employee> Get()
+        public List<Department> Get()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
-        public Employee Get([FromQuery] Guid id)
+        public Department Get([FromQuery] Guid id)
         {
             throw new NotImplementedException();
         }
 
         [HttpGet("[action]/{query}")]
         [Route("[action]/{query}")]
-        public List<Employee> Get([FromQuery] string query)
+        public List<Department> Get([FromQuery] string query)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("[action]}")]
         [Route("[action]")]
-        public Employee Post([FromBody] Employee model)
+        public Department Post([FromBody] Department model)
         {
             throw new NotImplementedException();
         }
 
         [HttpPut("[action]}")]
         [Route("[action]")]
-        public Employee Put([FromBody] Employee model)
+        public Department Put([FromBody] Department model)
         {
             throw new NotImplementedException();
         }

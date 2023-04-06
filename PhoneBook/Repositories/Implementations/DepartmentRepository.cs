@@ -3,7 +3,7 @@ using PhoneBook.Repositories.Interfaces;
 
 namespace PhoneBook.Repositories.Implementations
 {
-    public class DepartmentRepository : IBaseRepository<Department>
+    public class DepartmentRepository : IDepartmentRepository
     {
         public Department Create(Department model)
         {

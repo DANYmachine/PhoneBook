@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Controllers.Interfaces;
 using PhoneBook.Models;
+using PhoneBook.Repositories.Implementations;
+using PhoneBook.Repositories.Interfaces;
 
 namespace PhoneBook.Controllers.Implementations
 {
+    [ApiController]
+    [Route("[controller]")]
     public class EmployeeController : IBaseController<Employee>
     {
+        private readonly IEmployeeRepository _employeeRepository;
+
+        public EmployeeController(IEmployeeRepository employeeRepository)
+        {
+            _employeeRepository = employeeRepository;
+        }
+
         [HttpGet]
         [Route("[action]")]
         public List<Employee> Get()
