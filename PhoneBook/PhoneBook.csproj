@@ -15,9 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Services\Implementations\" />
-    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Controllers\Interfaces\" />
+    <Folder Include="Controllers\Implementations\" />
   </ItemGroup>
+
+ 
 
 </Project>
