@@ -5,6 +5,13 @@ namespace PhoneBook.Services.Emplementations
 {
     public class DepartmentService : IDepartmentService
     {
+        private readonly IDepartmentRepository _departmentRepository;
+
+        public DepartmentService(IDepartmentRepository departmentRepository)
+        {
+            _departmentRepository = departmentRepository;
+        }
+
         public Department Create(Department model)
         {
             throw new NotImplementedException();

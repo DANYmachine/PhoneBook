@@ -1,10 +1,18 @@
 ﻿using PhoneBook.Models;
+using PhoneBook.Repositories.Interfaces;
 using PhoneBook.Services.Interfaces;
 
 namespace PhoneBook.Services.Emplementations
 {
     public class EmployeeService : IEmployeeService
     {
+        private readonly IEmployeeRepository _employeeRepository;
+
+        public EmployeeService(IEmployeeRepository employeeRepository)
+        {
+            _employeeRepository = employeeRepository;
+        }
+
         public Employee Create(Employee model)
         {
             throw new NotImplementedException();
