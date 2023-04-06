@@ -1,8 +1,6 @@
-﻿using PhoneBook.Models;
-
-namespace PhoneBook.Repositories.Interfaces
+﻿namespace PhoneBook.Services.Interfaces
 {
-    public interface IBaseRepository<TDbModel>
+    public interface IBaseService<TDbModel>
     {
         public List<TDbModel> Get();
         public TDbModel GetById(Guid id);

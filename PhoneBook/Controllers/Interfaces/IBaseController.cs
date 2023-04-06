@@ -8,6 +8,5 @@
         public TbModel Post(TbModel model);
         public TbModel Put(TbModel model);
         public void Delete(Guid id);
-
     }
 }

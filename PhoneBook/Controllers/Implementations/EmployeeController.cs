@@ -3,6 +3,7 @@ using PhoneBook.Controllers.Interfaces;
 using PhoneBook.Models;
 using PhoneBook.Repositories.Implementations;
 using PhoneBook.Repositories.Interfaces;
+using PhoneBook.Services.Interfaces;
 
 namespace PhoneBook.Controllers.Implementations
 {
@@ -10,11 +11,11 @@ namespace PhoneBook.Controllers.Implementations
     [Route("[controller]")]
     public class EmployeeController : Controller, IEmployeeController
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _employeeRepository = employeeRepository;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
