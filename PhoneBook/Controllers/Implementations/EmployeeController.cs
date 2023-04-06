@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Controllers.Interfaces;
 using PhoneBook.Models;
-using PhoneBook.Repositories.Implementations;
-using PhoneBook.Repositories.Interfaces;
 using PhoneBook.Services.Interfaces;
 
 namespace PhoneBook.Controllers.Implementations
@@ -22,42 +20,42 @@ namespace PhoneBook.Controllers.Implementations
         [Route("[action]")]
         public List<Employee> Get()
         {
-            throw new NotImplementedException();
+            return _employeeService.Get();
         }
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
         public Employee Get([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            return _employeeService.GetById(id);
         }
 
         [HttpGet("[action]/{query}")]
         [Route("[action]/{query}")]
         public List<Employee> Get([FromRoute] string query)
         {
-            throw new NotImplementedException();
+            return _employeeService.GetByQuery(query);
         }
 
         [HttpPost("[action]}")]
         [Route("[action]")]
         public Employee Post([FromBody] Employee model)
         {
-            throw new NotImplementedException();
+            return _employeeService.Create(model);
         }
 
         [HttpPut("[action]}")]
         [Route("[action]")]
         public Employee Put([FromBody] Employee model)
         {
-            throw new NotImplementedException();
+            return _employeeService.Update(model);
         }
 
         [HttpDelete("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
         public void Delete([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            _employeeService.Delete(id);
         }
 
         //api.com/Employee/Department/1
@@ -65,7 +63,7 @@ namespace PhoneBook.Controllers.Implementations
         [Route("[action]/Department/{departmentId:guid}")]
         public List<Employee> GetDepartmentById([FromRoute] Guid departmentId)
         {
-            throw new NotImplementedException();
+            return _employeeService.GetEmployeesByDepartmentId(departmentId);
         }
     }
 }

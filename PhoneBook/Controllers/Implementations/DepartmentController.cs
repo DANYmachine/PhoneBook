@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Controllers.Interfaces;
 using PhoneBook.Models;
-using PhoneBook.Repositories.Implementations;
-using PhoneBook.Repositories.Interfaces;
 using PhoneBook.Services.Interfaces;
 
 namespace PhoneBook.Controllers.Implementations
@@ -22,42 +20,42 @@ namespace PhoneBook.Controllers.Implementations
         [Route("[action]")]
         public List<Department> Get()
         {
-            throw new NotImplementedException();
+            return _departmentService.Get();
         }
 
         [HttpGet("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
         public Department Get([FromQuery] Guid id)
         {
-            throw new NotImplementedException();
+            return _departmentService.GetById(id);
         }
 
         [HttpGet("[action]/{query}")]
         [Route("[action]/{query}")]
         public List<Department> Get([FromQuery] string query)
         {
-            throw new NotImplementedException();
+            return _departmentService.GetByQuery(query);
         }
 
         [HttpPost("[action]}")]
         [Route("[action]")]
         public Department Post([FromBody] Department model)
         {
-            throw new NotImplementedException();
+            return _departmentService.Create(model);
         }
 
         [HttpPut("[action]}")]
         [Route("[action]")]
         public Department Put([FromBody] Department model)
         {
-            throw new NotImplementedException();
+            return _departmentService.Update(model);
         }
 
         [HttpDelete("[action]/{id:guid}")]
         [Route("[action]/{id:guid}")]
         public void Delete([FromQuery] Guid id)
         {
-            throw new NotImplementedException();
+            _departmentService.Delete(id);
         }
     }
 }
