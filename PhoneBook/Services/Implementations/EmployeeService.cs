@@ -15,37 +15,37 @@ namespace PhoneBook.Services.Emplementations
 
         public long Create(Employee model)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.Create(model);
         }
 
         public void Delete(long id)
         {
-            throw new NotImplementedException();
+            _employeeRepository.Delete(id);
         }
 
         public List<Employee> Get()
         {
-            throw new NotImplementedException();
+            return _employeeRepository.Get();
         }
 
         public Employee GetById(long id)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.GetById(id);
         }
 
         public List<Employee> GetByQuery(string query)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.GetByQuery(query);
         }
 
         public List<Employee> GetEmployeesByDepartmentId(long departmentId)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.GetEmployeesByDepartmentId(departmentId);
         }
 
         public Employee Update(Employee model)
         {
-            throw new NotImplementedException();
+            return _employeeRepository.Update(model);
         }
     }
 }

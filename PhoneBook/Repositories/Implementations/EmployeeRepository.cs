@@ -3,6 +3,7 @@ using PhoneBook.Models.Exceptions;
 using PhoneBook.Repositories.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PhoneBook.Repositories.Implementations
 {
@@ -17,17 +18,18 @@ namespace PhoneBook.Repositories.Implementations
 
         public long Create(Employee model)
         {
-            try
-            {
-                string sqlQuery = "INSERT INTO employees (DepartmentId, FirstName, LastName, PhoneNumber, Email) " +
+            string sqlQuery = "INSERT INTO employees (DepartmentId, FirstName, LastName, PhoneNumber, Email) " +
                               "VALUES (@DepartmentId, @FirstName, @LastName, @PhoneNumber, @Email); SELECT LAST_INSERT_ID();";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
 
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+            try
+            {                
                 command.Parameters.AddWithValue("@DepartmentId", model.DepartmentId);
                 command.Parameters.AddWithValue("@FirstName", model.FirstName);
                 command.Parameters.AddWithValue("@LastName", model.LastName);
                 command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
-                command.Parameters.AddWithValue("@Email", model.Email);
+                command.Parameters.AddWithValue("@Email", (object?)model.Email ?? DBNull.Value);
+                command.Connection.Open();
 
                 long newId = Convert.ToInt64(command.ExecuteScalar());
 
@@ -37,39 +39,48 @@ namespace PhoneBook.Repositories.Implementations
             {
                 throw new Exception("Error while adding employee!");
             }
+            finally
+            {
+                if(command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public void Delete(long id)
         {
+            string sqlQuery = "DELETE FROM employees WHERE Id=@Id";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+
             try
             {
-                string sqlQuery = "DELETE FROM employees WHERE Id=@Id";
-
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+                command.Connection.Open();
                 command.Parameters.AddWithValue("@Id", id);
-
                 command.ExecuteNonQuery();
             }
             catch
             {
                 throw new Exception("Error while deleting employee!");
             }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public List<Employee> Get()
         {
+            string sqlQuery = "SELECT * FROM employees";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+
             try
             {
-                string sqlQuery = "SELECT * FROM employees";
-
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
-
+                command.Connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    throw new NotFoundException("Employees not found");
-                }
 
                 List<Employee> list = new List<Employee>();
 
@@ -77,6 +88,7 @@ namespace PhoneBook.Repositories.Implementations
                 {
                     list.Add(new Employee()
                     {
+                        Id = reader.GetInt64("Id"),
                         DepartmentId = reader.GetInt64("DepartmentId"),
                         FirstName = reader.GetString("FirstName"),
                         LastName = reader.GetString("LastName"),
@@ -87,24 +99,32 @@ namespace PhoneBook.Repositories.Implementations
 
                 return list;
             }
-            catch
+            catch(Exception ex)
             {
                 throw new Exception("Error while deleting employee!");
+            }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
             }
         }
 
         public Employee GetById(long id)
         {
-            try
-            {
-                string sqlQuery = "SELECT * FROM employees WHERE Id=@Id";
+            string sqlQuery = $"SELECT * FROM employees WHERE Id={id}";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
 
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
-                command.Parameters.AddWithValue("@Id", id);
+            try
+            {                
+                command.Connection.Open();
+                //command.Parameters.AddWithValue("@Id", id);
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.HasRows)
+                if (!reader.HasRows)
                 {
                     throw new NotFoundException("Employee not found");
                 }
@@ -113,6 +133,7 @@ namespace PhoneBook.Repositories.Implementations
 
                 return new Employee()
                 {
+                    Id = reader.GetInt64("Id"),
                     DepartmentId = reader.GetInt64("DepartmentId"),
                     FirstName = reader.GetString("FirstName"),
                     LastName = reader.GetString("LastName"),
@@ -120,35 +141,42 @@ namespace PhoneBook.Repositories.Implementations
                     Email = reader.GetString("Email"),
                 };
             }
-            catch
+            catch(Exception ex)
             {
                 throw new Exception("Employee not found!");
+            }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
             }
         }
 
         public List<Employee> GetByQuery(string search)
         {
+            string sqlQuery = "SELECT * FROM employees WHERE FirstName LIKE @Search;";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+
             try
             {
-                string sqlQuery = "SELECT * FROM employees WHERE Name LIKE @Search";
-
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
-
                 command.Parameters.AddWithValue("@Search", $"%{search}%");
+                command.Connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
-
                 List<Employee> list = new List<Employee>();
 
-                if (reader.HasRows)
+                if (!reader.HasRows)
                 {
-                    throw new NotFoundException("Department not found");
+                    throw new NotFoundException("Employee not found");
                 }
 
                 while (reader.Read())
                 {
                     list.Add(new Employee()
                     {
+                        Id = reader.GetInt64("Id"),
                         DepartmentId = reader.GetInt64("DepartmentId"),
                         FirstName = reader.GetString("FirstName"),
                         LastName = reader.GetString("LastName"),
@@ -159,26 +187,32 @@ namespace PhoneBook.Repositories.Implementations
 
                 return list;
             }
-            catch
+            catch(Exception ex)
             {
                 throw new Exception("Not found by input!");
+            }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
             }
         }
 
         public List<Employee> GetEmployeesByDepartmentId(long departmentId)
         {
+            string sqlQuery = "SELECT * FROM employees WHERE DepartmentId = @departmentId";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+
             try
             {
-                string sqlQuery = "SELECT * FROM employees WHERE DepartmentId = @departmentId";
-
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
-
+                command.Connection.Open();
                 command.Parameters.AddWithValue("@departmentId", departmentId);
                 SqlDataReader reader = command.ExecuteReader();
-
                 List<Employee> list = new List<Employee>();
 
-                if (reader.HasRows)
+                if (!reader.HasRows)
                 {
                     throw new NotFoundException("Department not found");
                 }
@@ -187,6 +221,7 @@ namespace PhoneBook.Repositories.Implementations
                 {
                     list.Add(new Employee()
                     {
+                        Id = reader.GetInt64("Id"),
                         DepartmentId = reader.GetInt64("DepartmentId"),
                         FirstName = reader.GetString("FirstName"),
                         LastName = reader.GetString("LastName"),
@@ -201,44 +236,45 @@ namespace PhoneBook.Repositories.Implementations
             {
                 throw new Exception("Not found by Department ID!");
             }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
+            }
         }
 
         public Employee Update(Employee model)
         {
+            string sqlQuery = "UPDATE employees " +
+                                  "SET FirstName = @FirstName, LastName = @LastName, DepartmentId = @DepartmentId, PhoneNumber = @PhoneNumber, Email = @Email" +
+                                  $"WHERE Id = {model.Id};";
+            SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+
             try
             {
-                string sqlQuery = "UPDATE employees " +
-                                  "SET FirstName = '@FirstName', LastName = '@LastName', DepartmentId = @DepartmentId, PhoneNumber = '@PhoneNumber', Email = '@Email'" +
-                                  $"WHERE Id = {model.Id};";
-
-                SqlCommand command = new SqlCommand(sqlQuery, new SqlConnection(_settingsStore.DbConnectionString));
+                command.Connection.Open();
                 command.Parameters.AddWithValue("@FirstName", model.FirstName);
                 command.Parameters.AddWithValue("@LastName", model.LastName);
                 command.Parameters.AddWithValue("@DepartmentId", model.DepartmentId);
                 command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
                 command.Parameters.AddWithValue("@FirstName", model.Email);
 
-                SqlDataReader reader = command.ExecuteReader();
+                command.ExecuteNonQuery();
 
-                if (reader.HasRows)
-                {
-                    throw new NotFoundException("Employee to update not found");
-                }
-
-                reader.Read();
-
-                return new Employee()
-                {
-                    DepartmentId = reader.GetInt64("DepartmentId"),
-                    FirstName = reader.GetString("FirstName"),
-                    LastName = reader.GetString("LastName"),
-                    PhoneNumber = reader.GetString("PhoneNumber"),
-                    Email = reader.GetString("Email"),
-                };
+                return model;
             }
             catch
             {
                 throw new Exception("Employee update failed!");
+            }
+            finally
+            {
+                if (command.Connection.State is ConnectionState.Open)
+                {
+                    command.Connection.Close();
+                }
             }
         }
     }
